@@ -1,7 +1,10 @@
 package forumhub.alura.entities.topicos;
 
 import forumhub.alura.entities.autor.Autor;
+import forumhub.alura.entities.autor.DadosAutor;
+import forumhub.alura.entities.autor.DadosAutorDetalhados;
 import jakarta.persistence.*;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -24,22 +27,34 @@ public class Topicos {
     private LocalDateTime dataCriacao;
     @Enumerated(EnumType.STRING)
     private StatusTopico status;
-    @Embedded
+
+    @ManyToOne(cascade = CascadeType.ALL)
     private Autor autor;
     private String curso;
-    private String resposta;
 
 
     public Topicos(DadosTopicos dadosTopicos){
         this.titulo = dadosTopicos.titulo();
         this.mensagem = dadosTopicos.mensagem();
-        this.dataCriacao = dadosTopicos.dataCriacao();
+        this.dataCriacao = LocalDateTime.now();
         this.status = dadosTopicos.status();
-        this.autor = dadosTopicos.autor();
+        this.autor = new Autor(dadosTopicos.autor());
         this.curso = dadosTopicos.curso();
-        this.resposta = dadosTopicos.resposta();
     }
 
+    public void atualizarInformacoesTopicos(AtualizarTopico atualizarTopico){
+        if(atualizarTopico.titulo() != null){
+            this.titulo = atualizarTopico.titulo();
+        }
+        if(atualizarTopico.mensagem() != null){
+            this.mensagem = atualizarTopico.mensagem();
+        }
+        if(atualizarTopico.curso() != null){
+            this.curso = atualizarTopico.curso();;
+        }
+
+
+    }
 
 
 }

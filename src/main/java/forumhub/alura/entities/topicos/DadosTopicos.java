@@ -1,6 +1,8 @@
 package forumhub.alura.entities.topicos;
 
 import forumhub.alura.entities.autor.Autor;
+import forumhub.alura.entities.autor.DadosAutor;
+import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
@@ -8,24 +10,21 @@ import java.time.LocalDateTime;
 
 public record DadosTopicos(
 
-        @NotBlank
+        @NotBlank(message = "O campo Titulo é obrigatório")
         String titulo,
 
-        @NotBlank
+        @NotBlank(message = "O campo Mensagem é obrigatório")
         String mensagem,
-
-        @NotBlank
+        @NotNull
         LocalDateTime dataCriacao,
 
         @NotNull
         StatusTopico status,
 
-        @NotBlank
-        Autor autor,
+        @NotNull
+        @Valid
+        DadosAutor autor,
 
         @NotBlank
-        String curso,
-
-        @NotBlank
-        String resposta) {
+        String curso) {
 }

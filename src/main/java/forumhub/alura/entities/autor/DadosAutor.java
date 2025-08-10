@@ -6,10 +6,9 @@ import jakarta.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
 public record DadosAutor(
-        @NotBlank
+        @NotBlank(message = "O campo " + " nome " + "não pode ser vazio ")
         String nome,
-
-        @NotBlank
+        @NotBlank(message = "O campo " + " email " + "não pode ser vazio ")
         String email)
 
         {

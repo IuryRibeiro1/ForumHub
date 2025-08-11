@@ -1,10 +1,9 @@
 package forumhub.alura.entities.autor;
 
-public record DadosAutorDetalhados(String nome, String email) {
-
+public record DadosAutorDetalhados(Long id, String nome, String email) {
 
     public DadosAutorDetalhados(Autor autor){
-        this(autor.getNome(), autor.getEmail());
+        this(autor.getId(), autor.getNome(), autor.getEmail());
     }
 
 }

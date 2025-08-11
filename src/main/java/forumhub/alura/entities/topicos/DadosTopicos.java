@@ -15,16 +15,11 @@ public record DadosTopicos(
 
         @NotBlank(message = "O campo Mensagem é obrigatório")
         String mensagem,
-        @NotNull
-        LocalDateTime dataCriacao,
 
-        @NotNull
-        StatusTopico status,
-
-        @NotNull
+        @NotNull(message = "O campo autor é obrigatória, preencha nome e email")
         @Valid
         DadosAutor autor,
 
-        @NotBlank
+        @NotBlank(message = "O campo Curso é obrigatório")
         String curso) {
 }

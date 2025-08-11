@@ -1,10 +1,7 @@
 package forumhub.alura.entities.topicos;
 
 import forumhub.alura.entities.autor.Autor;
-import forumhub.alura.entities.autor.DadosAutor;
-import forumhub.alura.entities.autor.DadosAutorDetalhados;
 import jakarta.persistence.*;
-import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -28,7 +25,7 @@ public class Topicos {
     @Enumerated(EnumType.STRING)
     private StatusTopico status;
 
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne(cascade = CascadeType.PERSIST)
     private Autor autor;
     private String curso;
 
@@ -36,10 +33,11 @@ public class Topicos {
     public Topicos(DadosTopicos dadosTopicos){
         this.titulo = dadosTopicos.titulo();
         this.mensagem = dadosTopicos.mensagem();
-        this.dataCriacao = LocalDateTime.now();
-        this.status = dadosTopicos.status();
         this.autor = new Autor(dadosTopicos.autor());
         this.curso = dadosTopicos.curso();
+        this.status = StatusTopico.AGUARDANDO_AVALIACAO;
+        this.dataCriacao = LocalDateTime.now();
+        this.curso = "Desenvolvimento de sistemas";
     }
 
     public void atualizarInformacoesTopicos(AtualizarTopico atualizarTopico){

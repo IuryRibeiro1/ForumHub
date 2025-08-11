@@ -6,10 +6,10 @@ import forumhub.alura.entities.autor.DadosAutorDetalhados;
 
 import java.time.LocalDateTime;
 
-public record PostagemTopicos(Long id, String titulo, String mensagem, DadosAutorDetalhados dadosAutor, String curso, StatusTopico statusTopico, LocalDateTime data) {
+public record PostagemTopicos(Long id, String titulo, String mensagem, LocalDateTime data, StatusTopico status, DadosAutorDetalhados autor , String curso ) {
 
 
     public PostagemTopicos(Topicos topicos){
-        this(topicos.getId(), topicos.getTitulo(), topicos.getMensagem(), new DadosAutorDetalhados(topicos.getAutor()), topicos.getCurso() , topicos.getStatus(), topicos.getDataCriacao());
+        this(topicos.getId(), topicos.getTitulo(), topicos.getMensagem(),  topicos.getDataCriacao(), topicos.getStatus(), new DadosAutorDetalhados(topicos.getAutor()) , topicos.getCurso());
     }
 }

@@ -1,5 +1,6 @@
 package forumhub.alura.entities.autor;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import forumhub.alura.entities.topicos.Topicos;
 import jakarta.persistence.*;
 import jakarta.validation.Valid;
@@ -10,6 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
+@Table(name = "autor")
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor

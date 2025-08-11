@@ -1,11 +1,24 @@
 package forumhub.alura.entities.topicos;
 
 
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
-public record AtualizarTopico(Long id, String titulo, String mensagem, String curso) {
+public record AtualizarTopico(
 
-    public AtualizarTopico(Topicos topicos){
-        this(topicos.getId(), topicos.getTitulo(), topicos.getMensagem(), topicos.getCurso());
-    }
+        @NotNull(message = "O campo Id é obrigatório")
+        Long id,
+
+        @NotBlank(message = "O campo titulo é obrigatório")
+        String titulo,
+
+        @NotBlank(message = "O campo mensagem é obrigatório")
+        String mensagem,
+
+        @NotBlank(message = "O campo curso é obrigatório")
+        String curso){
 
 }
+
+
+

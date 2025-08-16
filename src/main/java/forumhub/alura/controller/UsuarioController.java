@@ -1,6 +1,7 @@
 package forumhub.alura.controller;
 
 import forumhub.alura.entities.autor.Autor;
+import forumhub.alura.repository.AutorRepositorio;
 import forumhub.alura.repository.UsuarioRepository;
 import forumhub.alura.usuario.DadosCriarUsuario;
 import forumhub.alura.usuario.Usuario;
@@ -20,14 +21,23 @@ public class UsuarioController {
     @Autowired
     private UsuarioRepository repositorio;
 
+    private AutorRepositorio autorRepositorio;
+
     @Autowired
     private PasswordEncoder passwordEncoder;
 
     @PostMapping
     public ResponseEntity<?> cadastrarUsuario(@RequestBody @Valid DadosCriarUsuario dadosCriarUsuario) {
         String senhaCriptografada = passwordEncoder.encode(dadosCriarUsuario.senha());
-        Usuario usuario = new Usuario(null, dadosCriarUsuario.login(), senhaCriptografada, new Autor(dadosCriarUsuario.dadosAutor()));
-        repositorio.save(usuario);
+
+        var verificarLogin = repositorio.findByLogin(dadosCriarUsuario.login());
+        if(verificarLogin == null) {
+            Usuario usuario = new Usuario(null, dadosCriarUsuario.login(), senhaCriptografada, new Autor(dadosCriarUsuario.dadosAutor()));
+            repositorio.save(usuario);
+        }
+        else{
+            System.out.println("Já existe usuário com o mesmo login ou nome");
+        }
         return ResponseEntity.ok().build();
     }
 }

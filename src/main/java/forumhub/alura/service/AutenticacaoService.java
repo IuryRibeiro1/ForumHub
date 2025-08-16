@@ -1,6 +1,6 @@
 package forumhub.alura.service;
 
-import forumhub.alura.usuario.UsuarioRepository;
+import forumhub.alura.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

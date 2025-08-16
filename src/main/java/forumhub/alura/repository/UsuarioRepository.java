@@ -1,5 +1,6 @@
-package forumhub.alura.usuario;
+package forumhub.alura.repository;
 
+import forumhub.alura.usuario.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.security.core.userdetails.UserDetails;
 

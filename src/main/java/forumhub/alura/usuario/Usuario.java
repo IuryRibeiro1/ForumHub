@@ -1,13 +1,12 @@
 package forumhub.alura.usuario;
 
-
 import forumhub.alura.entities.autor.Autor;
-import forumhub.alura.entities.topicos.Topicos;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -30,6 +29,15 @@ public class Usuario implements UserDetails {
     @NotBlank
     private String senha;
 
+    @OneToOne(cascade = CascadeType.PERSIST)
+    private Autor autor;
+
+    public Usuario(DadosCriarUsuario dados){
+        this.login = dados.login();
+        this.senha = dados.senha();
+        this.autor = new Autor(dados.dadosAutor());
+    }
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_USER"));
@@ -44,4 +52,5 @@ public class Usuario implements UserDetails {
     public String getUsername() {
         return login;
     }
+
 }

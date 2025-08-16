@@ -1,7 +1,7 @@
 package forumhub.alura.security;
 
 import forumhub.alura.service.TokenService;
-import forumhub.alura.usuario.UsuarioRepository;
+import forumhub.alura.repository.UsuarioRepository;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;

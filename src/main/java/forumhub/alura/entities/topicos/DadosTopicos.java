@@ -16,10 +16,8 @@ public record DadosTopicos(
         @NotBlank(message = "O campo Mensagem é obrigatório")
         String mensagem,
 
-        @NotNull(message = "O campo autor é obrigatória, preencha nome e email")
-        @Valid
-        DadosAutor autor,
+        String curso,
 
-        @NotBlank(message = "O campo Curso é obrigatório")
-        String curso) {
+        Long autorid
+        ) {
 }

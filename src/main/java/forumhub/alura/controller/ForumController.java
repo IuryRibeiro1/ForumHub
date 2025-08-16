@@ -1,9 +1,12 @@
 package forumhub.alura.controller;
 
 
+import forumhub.alura.entities.autor.Autor;
 import forumhub.alura.entities.topicos.*;
+import forumhub.alura.repository.AutorRepositorio;
 import forumhub.alura.repository.TopicosRepositorio;
 
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -19,12 +22,21 @@ public class ForumController {
     @Autowired
     TopicosRepositorio topicosRepositorio;
 
+    @Autowired
+    AutorRepositorio autorRepositorio;
+
     @PostMapping
-    @Transactional
-    public void publicarPost(@RequestBody @Valid DadosTopicos dadosTopicos) {
-        var topicos = new Topicos(dadosTopicos);
-        topicosRepositorio.save(topicos);
+    public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
+        Autor autor = autorRepositorio.findById(dadosTopicos.autorid())
+                .orElseThrow(() -> new EntityNotFoundException("Autor não encontrado"));
+        Topicos topico = new Topicos(dadosTopicos);
+        topico.setAutor(autor);
+
+        topicosRepositorio.save(topico);
+
+        return ResponseEntity.ok().build();
     }
+
     @GetMapping
     public ResponseEntity<Page<PostagemTopicos>> listar(Pageable pageable){
           var listagemTopicos = topicosRepositorio.findById(pageable).map(PostagemTopicos::new);
@@ -52,7 +64,6 @@ public class ForumController {
     @Transactional
     public void deletarTopico(@PathVariable Long id){
         topicosRepositorio.deleteById(id);
-
 
     }
 

@@ -1,6 +1,7 @@
 package forumhub.alura.entities.topicos;
 
 import forumhub.alura.entities.autor.Autor;
+import forumhub.alura.entities.respostas.Resposta;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -8,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Entity
@@ -36,6 +38,8 @@ public class Topicos {
 
     private String curso;
 
+    @OneToMany
+    private List<Resposta> resposta;
 
     public Topicos(DadosTopicos dadosTopicos){
         this.titulo = dadosTopicos.titulo();

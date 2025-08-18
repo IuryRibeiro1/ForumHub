@@ -1,6 +1,7 @@
 package forumhub.alura.entities.autor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import forumhub.alura.entities.respostas.Resposta;
 import forumhub.alura.entities.topicos.Topicos;
 import forumhub.alura.usuario.Usuario;
 import jakarta.persistence.*;
@@ -32,6 +33,9 @@ public class Autor {
 
     @OneToOne(mappedBy = "autor")
     private Usuario usuario;
+
+    @ManyToOne
+    private Resposta resposta;
 
     public Autor(DadosAutor dadosAutor){
         this.nome = dadosAutor.nome();

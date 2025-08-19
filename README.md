@@ -97,13 +97,13 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 
 ##  Como Executar o Projeto
 
-1. **Clonar o repositório**
+**Clonar o repositório**
 ```bash
 git clone https://github.com/seu-usuario/forumhub.git
 ```
-2. ## Configurar banco de dados no `application.properties`
+## Configurar banco de dados no `application.properties`
 
-3. ## Realizar Login
+## Realizar Login
 ```bash
 POST /login
 Content-Type: application/json
@@ -113,7 +113,7 @@ Content-Type: application/json
 "senha": "123456"
 }
 ```
-4. ## Criar Tópico
+## Criar Tópico
 ```bash
 POST /topico
 Authorization: Bearer <token>
@@ -125,7 +125,7 @@ Content-Type: application/json
 "curso": "Java"
 }
 ```
-5. ## Listar Tópicos
+## Listar Tópicos
 ```bash
 Authorization: Bearer <token>
 GET /topico?page=0&size=10
@@ -134,7 +134,7 @@ Ou
 
 Get/topico
 ```
-6. ## Atualizar Tópico
+## Atualizar Tópico
 ```bash
 Authorization: Bearer <token>
 
@@ -147,7 +147,7 @@ PUT/topico/{id}
 }
 ```
 
-8. ## Excluir Tópico
+## Excluir Tópico
 ```bash
 Authorization: Bearer <token>
 DELETE /topico/{id}

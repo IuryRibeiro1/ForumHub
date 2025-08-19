@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
@@ -27,8 +29,11 @@ public class ForumController {
 
     @PostMapping
     public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
-        Autor autor = autorRepositorio.findById(dadosTopicos.autorid())
-                .orElseThrow(() -> new EntityNotFoundException("Autor não encontrado"));
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        Autor autor = autorRepositorio.findByUsuarioLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário autenticado não encontrado"));
         Topicos topico = new Topicos(dadosTopicos);
         topico.setAutor(autor);
 
@@ -39,7 +44,7 @@ public class ForumController {
 
     @GetMapping
     public ResponseEntity<Page<PostagemTopicos>> listar(Pageable pageable){
-          var listagemTopicos = topicosRepositorio.findById(pageable).map(PostagemTopicos::new);
+          var listagemTopicos = topicosRepositorio.findAll(pageable).map(PostagemTopicos::new);
         return ResponseEntity.ok(listagemTopicos);
 
     }

@@ -44,7 +44,6 @@ public class Topicos {
     public Topicos(DadosTopicos dadosTopicos){
         this.titulo = dadosTopicos.titulo();
         this.mensagem = dadosTopicos.mensagem();
-        this.curso = dadosTopicos.curso();
         this.status = StatusTopico.AGUARDANDO_AVALIACAO;
         this.dataCriacao = LocalDateTime.now();
         this.curso = "Desenvolvimento de sistemas";

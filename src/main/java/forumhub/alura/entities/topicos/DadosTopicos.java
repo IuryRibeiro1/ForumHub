@@ -16,8 +16,6 @@ public record DadosTopicos(
         @NotBlank(message = "O campo Mensagem é obrigatório")
         String mensagem,
 
-        String curso,
-
-        Long autorid
+        String curso
         ) {
 }

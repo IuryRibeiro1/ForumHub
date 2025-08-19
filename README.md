@@ -1,4 +1,4 @@
-# 📚 ForumHub API
+# ForumHub API
 
 API REST desenvolvida em Java com Spring Boot para gerenciamento de tópicos e autores, incluindo autenticação JWT e controle de acesso com Spring Security.
 Agora os tópicos são associados automaticamente ao usuário autenticado, sem necessidade de informar manualmente o autorId.**.
@@ -43,7 +43,7 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 
 ---
 
-## 📂 Estrutura do Projeto
+##  Estrutura do Projeto
 
 - Controller → Endpoints REST da API (ForumController, etc.)
 
@@ -57,7 +57,7 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 
 ---
 
-## 🔐 Autenticação JWT
+##  Autenticação JWT
 
 1. **Login**
    - O usuário envia suas credenciais (`email` e `senha`) para o endpoint `/login`.
@@ -72,7 +72,7 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 
 ---
 
-## 📌 Funcionalidades
+##  Funcionalidades
 
 - **Cadastrar Autor**
 - **Cadastrar Tópico**
@@ -84,7 +84,7 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 
 ---
 
-##Fluxo de criação de Tópicos
+## Fluxo de criação de Tópicos
 1. - Usuário loga via `/login` e recebe um token JWT
 2. - Ao criar um tópico, o token é enviado no header
 3. - No back-end, o ForumController:
@@ -95,15 +95,15 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
    - Associa o `Autor` ao novo `Topico`
    - Salva o tópico no banco com o `autor_id`  
 
-## ⚙️ Como Executar o Projeto
+##  Como Executar o Projeto
 
 1. **Clonar o repositório**
 ```bash
 git clone https://github.com/seu-usuario/forumhub.git
 ```
-2. ##Configurar banco de dados no `application.properties`
+2. ## Configurar banco de dados no `application.properties`
 
-3. ##Realizar Login
+3. ## Realizar Login
 ```bash
 POST /login
 Content-Type: application/json
@@ -113,7 +113,7 @@ Content-Type: application/json
 "senha": "123456"
 }
 ```
-4. ##Criar Tópico
+4. ## Criar Tópico
 ```bash
 POST /topico
 Authorization: Bearer <token>
@@ -125,7 +125,7 @@ Content-Type: application/json
 "curso": "Java"
 }
 ```
-5. ##Listar Tópicos
+5. ## Listar Tópicos
 ```bash
 Authorization: Bearer <token>
 GET /topico?page=0&size=10
@@ -134,7 +134,7 @@ Ou
 
 Get/topico
 ```
-6. ##Atualizar Tópico
+6. ## Atualizar Tópico
 ```bash
 Authorization: Bearer <token>
 
@@ -147,7 +147,7 @@ PUT/topico/{id}
 }
 ```
 
-8. ##Excluir Tópico
+8. ## Excluir Tópico
 ```bash
 Authorization: Bearer <token>
 DELETE /topico/{id}

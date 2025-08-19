@@ -1,6 +1,7 @@
 # 📚 ForumHub API
 
-API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tópicos e autores, incluindo autenticação JWT e controle de acesso com **Spring Security**.
+API REST desenvolvida em Java com Spring Boot para gerenciamento de tópicos e autores, incluindo autenticação JWT e controle de acesso com Spring Security.
+Agora os tópicos são associados automaticamente ao usuário autenticado, sem necessidade de informar manualmente o autorId.**.
 
 ---
 
@@ -44,7 +45,15 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
 
 ## 📂 Estrutura do Projeto
 
+- Controller → Endpoints REST da API (ForumController, etc.)
 
+- Entities → Entidades JPA (Topicos, Autor, Usuario, Resposta)
+
+- Repository → Repositórios Spring Data (TopicosRepositorio, AutorRepositorio, UsuarioRepositorio)
+
+- Security → Configuração de autenticação JWT e roles (ROLE_USER, ROLE_ADMIN)
+
+- Dto → Classes de transferência de dados (DadosTopicos, DadosAutor, AtualizarTopico)
 
 ---
 
@@ -75,6 +84,17 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
 
 ---
 
+##Fluxo de criação de Tópicos
+1. - Usuário loga via `/login` e recebe um token JWT
+2. - Ao criar um tópico, o token é enviado no header
+3. - No back-end, o ForumController:
+   - Pega o login do usuário autenticado via:
+     SecurityContextHolder.getContext().getAuthentication().getName()
+   - Busca o `Usuário` pelo login no UsuarioRepositorio
+   - Obtém o `Autor` vinculado a esse usuário
+   - Associa o `Autor` ao novo `Topico`
+   - Salva o tópico no banco com o `autor_id`  
+
 ## ⚙️ Como Executar o Projeto
 
 1. **Clonar o repositório**
@@ -82,28 +102,8 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
    git clone https://github.com/seu-usuario/forumhub.git
 
 
-#Requisições
+#Como executar o projeto
+1. - Clonar o repositório
+    
+bash<br>git clone https://github.com/seu-usuario/forumhub.git<br>
 
-POST /login
-Content-Type: application/json
-
-{
-  "email": "usuario@email.com",
-  "senha": "123456"
-}
-
-*** ***
-
-POST /topicos
-Authorization: Bearer <token>
-Content-Type: application/json
-
-{
-  "titulo": "Dúvida sobre Spring Boot",
-  "mensagem": "Como implementar autenticação JWT?",
-  "autor": {
-    "nome": "João",
-    "email": "joao@email.com"
-  },
-  "curso": "Java"
-}

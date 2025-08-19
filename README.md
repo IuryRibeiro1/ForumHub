@@ -100,10 +100,34 @@ Agora os tópicos são associados automaticamente ao usuário autenticado, sem n
 1. **Clonar o repositório**
    ```bash
    git clone https://github.com/seu-usuario/forumhub.git
+```
+2. ##Configurar banco de dados no `application.properties`
+```
 
+3. ##Realizar Login
+```bash
+ POST /login
+Content-Type: application/json
 
-#Como executar o projeto
-1. - Clonar o repositório
-    
-bash<br>git clone https://github.com/seu-usuario/forumhub.git<br>
+{
+  "login": "usuario123",
+  "senha": "123456"
+}
+```
+4. ##Criar Tópico
+```bash
+POST /topico
+Authorization: Bearer <token>
+Content-Type: application/json
+
+{
+  "titulo": "Dúvida sobre Spring Boot",
+  "mensagem": "Como implementar autenticação JWT?",
+  "curso": "Java"
+}
+```
+5. ##Listar tópicos
+```bash
+GET /topico?page=0&size=10
+Authorization: Bearer <token>
 

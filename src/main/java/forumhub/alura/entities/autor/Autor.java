@@ -34,8 +34,8 @@ public class Autor {
     @OneToOne(mappedBy = "autor")
     private Usuario usuario;
 
-    @ManyToOne
-    private Resposta resposta;
+    @OneToMany(mappedBy = "autor")
+    private List<Resposta> resposta;
 
     public Autor(DadosAutor dadosAutor){
         this.nome = dadosAutor.nome();

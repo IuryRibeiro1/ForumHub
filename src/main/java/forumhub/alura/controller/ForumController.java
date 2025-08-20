@@ -2,8 +2,11 @@ package forumhub.alura.controller;
 
 
 import forumhub.alura.entities.autor.Autor;
+import forumhub.alura.entities.respostas.DadosResposta;
+import forumhub.alura.entities.respostas.Resposta;
 import forumhub.alura.entities.topicos.*;
 import forumhub.alura.repository.AutorRepositorio;
+import forumhub.alura.repository.RespostaRepositorio;
 import forumhub.alura.repository.TopicosRepositorio;
 
 import jakarta.persistence.EntityNotFoundException;
@@ -27,6 +30,11 @@ public class ForumController {
     @Autowired
     AutorRepositorio autorRepositorio;
 
+    @Autowired
+    RespostaRepositorio respostaRepositorio;
+
+
+
     @PostMapping
     public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -40,6 +48,24 @@ public class ForumController {
         topicosRepositorio.save(topico);
 
         return ResponseEntity.ok().build();
+    }
+    @PostMapping("/resposta/{idTopico}")
+    public void respostaTopico(@PathVariable Long idTopico, @RequestBody @Valid DadosResposta dadosResposta){
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        String login = authentication.getName();
+
+        Autor autor = autorRepositorio.findByUsuarioLogin(login)
+                .orElseThrow(() -> new EntityNotFoundException("Usuário autenticado não encontrado"));
+
+        var listagemTopicos = topicosRepositorio.getReferenceById(idTopico);
+
+        Resposta resposta = new Resposta(dadosResposta);
+
+        resposta.setAutor(autor);
+        resposta.setTopicos(listagemTopicos);
+
+        respostaRepositorio.save(resposta);
+
     }
 
     @GetMapping

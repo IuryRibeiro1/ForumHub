@@ -46,7 +46,7 @@ public class Topicos {
         this.mensagem = dadosTopicos.mensagem();
         this.status = StatusTopico.AGUARDANDO_AVALIACAO;
         this.dataCriacao = LocalDateTime.now();
-        this.curso = "Desenvolvimento de sistemas";
+        this.curso = dadosTopicos.curso();
     }
 
 

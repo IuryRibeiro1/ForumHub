@@ -12,14 +12,6 @@ public record DadosResposta(
         @NotBlank
         String mensagem,
 
-        @NotNull
-        Topicos topicos,
-
-        @NotNull
-        LocalDateTime dataCriacao,
-
-        @NotNull
-        Autor autor,
 
         @NotBlank
         String solucao) {

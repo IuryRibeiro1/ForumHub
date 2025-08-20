@@ -29,16 +29,14 @@ public class Resposta {
     private Topicos topicos;
     private LocalDateTime dataCriacao;
 
-    @OneToMany
-    private List<Autor> autor;
+    @ManyToOne
+    private Autor autor;
 
     private String solucao;
 
     public Resposta(DadosResposta dadosResposta){
         this.mensagem = dadosResposta.mensagem();
-        this.topicos = dadosResposta.topicos();
         this.dataCriacao = LocalDateTime.now();
-        this.autor = Collections.singletonList(dadosResposta.autor());
         this.solucao = dadosResposta.solucao();
     }
 

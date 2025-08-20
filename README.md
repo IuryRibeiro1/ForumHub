@@ -1,6 +1,7 @@
-# 📚 ForumHub API
+# ForumHub API
 
-API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tópicos e autores, incluindo autenticação JWT e controle de acesso com **Spring Security**.
+API REST desenvolvida em Java com Spring Boot para gerenciamento de tópicos e autores, incluindo autenticação JWT e controle de acesso com Spring Security.
+Agora os tópicos são associados automaticamente ao usuário autenticado, sem necessidade de informar manualmente o autorId.**.
 
 ---
 
@@ -42,13 +43,21 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
 
 ---
 
-## 📂 Estrutura do Projeto
+##  Estrutura do Projeto
 
+- Controller → Endpoints REST da API (ForumController, etc.)
 
+- Entities → Entidades JPA (Topicos, Autor, Usuario, Resposta)
+
+- Repository → Repositórios Spring Data (TopicosRepositorio, AutorRepositorio, UsuarioRepositorio)
+
+- Security → Configuração de autenticação JWT e roles (ROLE_USER, ROLE_ADMIN)
+
+- Dto → Classes de transferência de dados (DadosTopicos, DadosAutor, AtualizarTopico)
 
 ---
 
-## 🔐 Autenticação JWT
+##  Autenticação JWT
 
 1. **Login**
    - O usuário envia suas credenciais (`email` e `senha`) para o endpoint `/login`.
@@ -63,7 +72,7 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
 
 ---
 
-## 📌 Funcionalidades
+##  Funcionalidades
 
 - **Cadastrar Autor**
 - **Cadastrar Tópico**
@@ -75,35 +84,72 @@ API REST desenvolvida em **Java** com **Spring Boot** para gerenciamento de tóp
 
 ---
 
-## ⚙️ Como Executar o Projeto
+## Fluxo de criação de Tópicos
+1. - Usuário loga via `/login` e recebe um token JWT
+2. - Ao criar um tópico, o token é enviado no header
+3. - No back-end, o ForumController:
+   - Pega o login do usuário autenticado via:
+     SecurityContextHolder.getContext().getAuthentication().getName()
+   - Busca o `Usuário` pelo login no UsuarioRepositorio
+   - Obtém o `Autor` vinculado a esse usuário
+   - Associa o `Autor` ao novo `Topico`
+   - Salva o tópico no banco com o `autor_id`  
 
-1. **Clonar o repositório**
-   ```bash
-   git clone https://github.com/seu-usuario/forumhub.git
+##  Como Executar o Projeto
 
+**Clonar o repositório**
+```bash
+git clone https://github.com/seu-usuario/forumhub.git
+```
+## Configurar banco de dados no `application.properties`
 
-#Requisições
-
+## Realizar Login
+```bash
 POST /login
 Content-Type: application/json
 
 {
-  "email": "usuario@email.com",
-  "senha": "123456"
+"login": "usuario123",
+"senha": "123456"
 }
-
-*** ***
-
-POST /topicos
+```
+## Criar Tópico
+```bash
+POST /topico
 Authorization: Bearer <token>
 Content-Type: application/json
 
 {
-  "titulo": "Dúvida sobre Spring Boot",
-  "mensagem": "Como implementar autenticação JWT?",
-  "autor": {
-    "nome": "João",
-    "email": "joao@email.com"
-  },
-  "curso": "Java"
+"titulo": "Dúvida sobre Spring Boot",
+"mensagem": "Como implementar autenticação JWT?",
+"curso": "Java"
 }
+```
+## Listar Tópicos
+```bash
+Authorization: Bearer <token>
+GET /topico?page=0&size=10
+
+Ou
+
+Get/topico
+```
+## Atualizar Tópico
+```bash
+Authorization: Bearer <token>
+
+PUT/topico/{id}
+{
+"id" : 1,
+"titulo" : "Importância do estudo",
+"mensagem" : "Estudar faz bem para alma e espírito, além de engrandecer o ser humano como profissional e pessoa",
+"curso" : "Análise e desenvolvimento de sistemas"
+}
+```
+
+## Excluir Tópico
+```bash
+Authorization: Bearer <token>
+DELETE /topico/{id}
+
+

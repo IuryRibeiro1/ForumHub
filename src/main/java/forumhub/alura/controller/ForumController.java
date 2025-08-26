@@ -5,6 +5,7 @@ import forumhub.alura.entities.autor.Autor;
 import forumhub.alura.entities.respostas.DadosResposta;
 import forumhub.alura.entities.respostas.Resposta;
 import forumhub.alura.entities.topicos.*;
+import forumhub.alura.entities.topicos.validadores.ValidarTopico;
 import forumhub.alura.repository.AutorRepositorio;
 import forumhub.alura.repository.RespostaRepositorio;
 import forumhub.alura.repository.TopicosRepositorio;
@@ -20,6 +21,8 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("topico")
 public class ForumController {
@@ -33,7 +36,8 @@ public class ForumController {
     @Autowired
     RespostaRepositorio respostaRepositorio;
 
-
+    @Autowired
+    private List<ValidarTopico> validadores;
 
     @PostMapping
     public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
@@ -42,6 +46,7 @@ public class ForumController {
 
         Autor autor = autorRepositorio.findByUsuarioLogin(login)
                 .orElseThrow(() -> new EntityNotFoundException("Usuário autenticado não encontrado"));
+        validadores.forEach(v -> v.validar(dadosTopicos));
         Topicos topico = new Topicos(dadosTopicos);
         topico.setAutor(autor);
 

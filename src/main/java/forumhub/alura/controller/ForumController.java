@@ -4,12 +4,15 @@ package forumhub.alura.controller;
 import forumhub.alura.entities.autor.Autor;
 import forumhub.alura.entities.respostas.DadosResposta;
 import forumhub.alura.entities.respostas.Resposta;
+import forumhub.alura.entities.respostas.RespostaDTO;
 import forumhub.alura.entities.topicos.*;
 import forumhub.alura.entities.topicos.validadores.ValidarTopico;
 import forumhub.alura.repository.AutorRepositorio;
 import forumhub.alura.repository.RespostaRepositorio;
 import forumhub.alura.repository.TopicosRepositorio;
 
+import forumhub.alura.service.RespostaService;
+import forumhub.alura.service.TopicoService;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,39 +40,23 @@ public class ForumController {
     RespostaRepositorio respostaRepositorio;
 
     @Autowired
-    private List<ValidarTopico> validadores;
+    private TopicoService topicoService;
+
+    @Autowired
+    private RespostaService respostaService;
 
     @PostMapping
-    public ResponseEntity<?> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
+    public ResponseEntity<PostagemTopicos> criarTopico(@RequestBody @Valid DadosTopicos dadosTopicos) {
 
-        Autor autor = autorRepositorio.findByUsuarioLogin(login)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário autenticado não encontrado"));
-        validadores.forEach(v -> v.validar(dadosTopicos));
-        Topicos topico = new Topicos(dadosTopicos);
-        topico.setAutor(autor);
+        var dto = topicoService.postagemTopicos(dadosTopicos);
+        return ResponseEntity.ok(dto);
 
-        topicosRepositorio.save(topico);
-
-        return ResponseEntity.ok().build();
     }
     @PostMapping("/resposta/{idTopico}")
-    public void respostaTopico(@PathVariable Long idTopico, @RequestBody @Valid DadosResposta dadosResposta){
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        String login = authentication.getName();
+    public ResponseEntity<RespostaDTO> respostaTopico(@PathVariable Long idTopico, @RequestBody @Valid DadosResposta dadosResposta){
 
-        Autor autor = autorRepositorio.findByUsuarioLogin(login)
-                .orElseThrow(() -> new EntityNotFoundException("Usuário autenticado não encontrado"));
-
-        var listagemTopicos = topicosRepositorio.getReferenceById(idTopico);
-
-        Resposta resposta = new Resposta(dadosResposta);
-
-        resposta.setAutor(autor);
-        resposta.setTopicos(listagemTopicos);
-
-        respostaRepositorio.save(resposta);
+        var dto = respostaService.responderTopico(idTopico,dadosResposta);
+        return ResponseEntity.ok(dto);
 
     }
 

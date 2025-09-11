@@ -39,10 +39,11 @@ public class TopicoService {
         Topicos topico = new Topicos(dadosTopicos);
         topico.setAutor(autor);
 
-
         topicosRepositorio.save(topico);
 
         return new PostagemTopicos(topico);
     }
+
+
 }
 
